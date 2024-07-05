@@ -1,5 +1,27 @@
-<ul>
-<% @lists.each do |list|%>
-    <li><%=  link_to list.name, list_path(list.id)  %></li>
-<% end %>
-</ul>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="my-4">My Lists</h1>
+
+      <%= link_to 'Create a Movie List', new_list_path, class: 'btn btn-primary mb-3' %>
+
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th colspan="2">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @lists.each do |list| %>
+            <tr>
+              <td><%= list.name %></td>
+              <td><%= link_to 'Show', list, class: 'btn btn-info btn-sm' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

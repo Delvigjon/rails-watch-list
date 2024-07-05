@@ -6,7 +6,7 @@ class List < ApplicationRecord
 
   private
 
-  # Method to destroy associated movies
+ 
   def destroy_associated_movies
     self.movies.destroy_all
   end

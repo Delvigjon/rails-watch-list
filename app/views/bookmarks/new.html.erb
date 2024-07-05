@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="my-4">New Bookmark</h1>
+
+      <%= render 'form', bookmark: @bookmark %>
+
+      <%= link_to 'Back', list_path(params[:list_id]), class: 'btn btn-primary mt-3' %>
+    </div>
+  </div>
+</div>

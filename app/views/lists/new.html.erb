@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="my-4">New Movie List</h1>
+
+      <%= render 'form', list: @list %>
+
+      <%= link_to 'Back', lists_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+</div>
