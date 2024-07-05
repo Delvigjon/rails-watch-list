@@ -9,7 +9,11 @@
             <div class="card h-100">
               <img src="<%= bookmark.movie.poster_url %>" class="card-img-top" alt="<%= bookmark.movie.title %> poster">
               <div class="card-body">
-                <h5 class="card-title"><%= bookmark.movie.title %></h5>
+                <h5 class="card-title">
+                  <%= link_to bookmark.movie.title, '#' %> <!-- Lien vers une page de détails du film -->
+                  <span class="badge bg-warning"><%= bookmark.movie.rating %> / 10</span> <!-- Rating affiché comme badge -->
+                </h5>
+                <p><%= bookmark.movie.overview %></p> <!-- Overview du film -->
                 <p class="card-text"><%= truncate(bookmark.comment, length: 100) %></p>
               </div>
               <div class="card-footer">
