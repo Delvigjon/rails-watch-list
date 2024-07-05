@@ -3,7 +3,7 @@ class List < ApplicationRecord
     has_many :bookmarks
     has_many :movies, through: :bookmarks
     before_destroy :destroy_associated_movies
-
+    has_one_attached :photo
   private
 
  

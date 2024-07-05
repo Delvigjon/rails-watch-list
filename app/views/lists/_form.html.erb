@@ -1,27 +1,25 @@
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <%= form_with(model: list, local: true) do |f| %>
-        <% if list.errors.any? %>
-          <div id="error_explanation" class="alert alert-danger">
-            <h2><%= pluralize(list.errors.count, "error") %> prohibited this list from being saved:</h2>
-            <ul>
-              <% list.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-
-        <div class="form-group">
-          <%= f.label :name %>
-          <%= f.text_field :name, class: 'form-control' %>
-        </div>
-
-        <div class="actions">
-          <%= f.submit 'Save', class: 'btn btn-primary' %>
-        </div>
-      <% end %>
-    </div>
+<!-- app/views/lists/_form.html.erb -->
+<%= form_with(model: @list, local: true, html: { multipart: true }) do |form| %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
-</div>
+
+  <div class="form-group">
+    <%= form.label :background_image_url %>
+    <%= form.text_field :background_image_url, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :photo %>
+    <%= form.file_field :photo, class: 'form-control' %>
+    <% if @list.photo.attached? %>
+      <div class="mt-3">
+        <p>Current Image:</p>
+        <%= image_tag url_for(@list.photo), class: 'img-thumbnail' %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= form.submit 'Save List', class: 'btn btn-primary' %>
+<% end %>

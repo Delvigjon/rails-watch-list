@@ -10,3 +10,31 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+// app/assets/stylesheets/application.scss
+
+.card-title {
+    position: relative;
+    width: 100%;
+    height: 200px; // Ajustez la hauteur selon vos besoins
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); // Pour améliorer la lisibilité du texte
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 0; // Retire la marge par défaut du h5
+  }
+  
+  .card-title a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5em; // Ajustez la taille du texte selon vos besoins
+  }
+  
+  .card-body {
+    padding: 0; // Retire le padding par défaut de la card-body
+  }
+  
