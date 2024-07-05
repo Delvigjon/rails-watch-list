@@ -1,6 +1,8 @@
 <!-- app/views/lists/new.html.erb -->
-<h1>New List</h1>
+<div class="container">
+  <h1>New List</h1>
 
-<%= render 'form', list: @list %>
+  <%= render 'form', list: @list %>
 
-<%= link_to 'Back', lists_path, class: 'btn btn-secondary' %>
+  <%= link_to 'Back', lists_path, class: 'btn btn-secondary mt-3' %>
+</div>
