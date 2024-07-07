@@ -1,30 +1,82 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1><%= @list.name %></h1>
-      
-      <div class="row">
-        <% @list.bookmarks.each do |bookmark| %>
-          <div class="col-md-4 mb-4">
-            <div class="card h-100">
-              <img src="<%= bookmark.movie.poster_url %>" class="card-img-top" alt="<%= bookmark.movie.title %> poster">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <%= link_to bookmark.movie.title, '#' %> <!-- Lien vers une page de détails du film -->
-                  <span class="badge bg-warning"><%= bookmark.movie.rating %> / 10</span> <!-- Rating affiché comme badge -->
-                </h5>
-                <p><%= bookmark.movie.overview %></p> <!-- Overview du film -->
-                <p class="card-text"><%= truncate(bookmark.comment, length: 100) %></p>
-              </div>
-              <div class="card-footer">
-                <%= link_to 'Delete', bookmark, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm me-2' %>
-                <%= link_to 'Details', bookmark, class: 'btn btn-outline-primary btn-sm' %>
-              </div>
-              <div class="card-footer">
-                <%= link_to 'New Bookmark', new_list_bookmark_path(@list), class: 'btn btn-success w-100 btn-block mb-2' %>
-                <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary w-100 btn-block' %>
+      <div class="cards-container">
+        <div class="banner mb-5" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= @list.background_image_url %>);">
+          <div class="container">
+            <h1><%= @list.name %></h1>
+            <button type="button" class="btn btn-flat" data-bs-toggle="modal" data-bs-target="#new_movie_modal">
+              Add a movie
+            </button>
+          </div>
+        </div>
+        
+        <div class="row justify-content-center">
+          <% @list.bookmarks.each do |bookmark| %>
+            <div class="col-md-4 mb-4 d-flex">
+              <div class="card h-100">
+                <img src="<%= bookmark.movie.poster_url %>" class="card-img-top" alt="<%= bookmark.movie.title %> poster">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= link_to bookmark.movie.title, '#' %>
+                    <span class="badge bg-warning"><%= bookmark.movie.rating %> / 10</span>
+                  </h5>
+                  <p><%= bookmark.movie.overview %></p>
+                  <p class="card-text"><%= truncate(bookmark.comment, length: 100) %></p>
+                </div>
+                <div class="card-footer">
+                  <%= link_to 'Delete', bookmark, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm me-2' %>
+                  <%= link_to 'Details', bookmark, class: 'btn btn-outline-primary btn-sm' %>
+                </div>
               </div>
             </div>
+          <% end %>
+        </div>
+
+        <div class="text-center mt-4">
+          <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for adding a new movie -->
+<div class="modal fade" id="new_movie_modal" tabindex="-1" aria-labelledby="newMovieModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newMovieModalLabel">Add a Movie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form for creating a new bookmark -->
+        <%= form_with model: [ @list, Bookmark.new ], url: list_bookmarks_path(@list), local: true do |form| %>
+          <h5>Create a New Movie</h5>
+          <div class="mb-3">
+            <%= form.label :title, "Title", class: "form-label" %>
+            <%= form.text_field :title, name: 'bookmark[title]', class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :overview, "Overview", class: "form-label" %>
+            <%= form.text_area :overview, name: 'bookmark[overview]', class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :poster_url, "Poster URL", class: "form-label" %>
+            <%= form.text_field :poster_url, name: 'bookmark[poster_url]', class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :rating, "Rating", class: "form-label" %>
+            <%= form.number_field :rating, name: 'bookmark[rating]', in: 0..10, step: 0.1, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :comment, "Comment", class: "form-label" %>
+            <%= form.text_area :comment, class: "form-control" %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <%= form.submit "Add Movie to List", class: "btn btn-primary" %>
           </div>
         <% end %>
       </div>

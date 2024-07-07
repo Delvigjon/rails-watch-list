@@ -28,6 +28,7 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.125); /* Bordure de la carte */
   border-radius: 0.25rem; /* Coins arrondis */
   transition: box-shadow 0.3s ease; /* Transition douce pour l'ombre */
+  margin: 10px;
 }
 
 .card:hover {
@@ -89,6 +90,12 @@ body {
   background-size: cover;
   background-position: center;
   padding: 150px 0;
+  width: 100%;
+  padding: 20px;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
 }
 
 .banner h1,h2 {
@@ -105,4 +112,14 @@ body {
   color: white;
   opacity: .7;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.cards-container {
+  width: 100%;
+}
+
+.cards-container .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
