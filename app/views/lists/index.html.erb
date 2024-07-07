@@ -12,13 +12,13 @@
       <div class="row mt-4">
         <% @lists.each do |list| %>
           <div class="col-md-4 mb-4">
-            <div class="card">
+            <div class="card" id="card">
               <div class="card-body p-0">
                 <h5 class="card-title" style="background-image: url(<%= list.photo.attached? ? url_for(list.photo) : list.background_image_url %>); background-size: cover; background-position: center; height: 200px; display: flex; align-items: center; justify-content: center; color: white; text-shadow: 1px 1px 2px black;">
                   <%= link_to list.name, list, class: 'text-decoration-none' %>
                 </h5>
-                <div class="d-flex justify-content-between align-items-center px-3 py-2">
-                  <%= link_to edit_list_path(list), class: 'btn btn-outline-secondary btn-sm w-100', title: 'Edit', data: { toggle: 'tooltip' } do %>
+                <div class="d-flex justify-content-between align-items-center px-3 py-2" >
+                  <%= link_to edit_list_path(list), class: 'btn btn-outline-secondary btn-sm w-100 mt-4', title: 'Edit', data: { toggle: 'tooltip' } do %>
                     <i class="bi bi-pencil"></i> Edit this List
                   <% end %>
                 </div>
