@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # Routes pour les films populaires et recommandés
+  get 'popular', to: 'movies#popular', as: :movies_popular
+  get 'recommended', to: 'movies#recommended', as: :movies_recommended
+
   # Route racine vers la page d'accueil
   root to: 'pages#home'
 
@@ -9,5 +13,6 @@ Rails.application.routes.draw do
   resources :lists do
     resources :bookmarks, only: [:new, :create]
   end
+
   resources :bookmarks, only: [:destroy]
 end

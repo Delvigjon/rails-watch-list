@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <title>RailsWatchList</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11,6 +11,10 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'shared/navbar' %> <!-- Inclusion de la navbar -->
+
+    <%= yield %> <!-- Le contenu principal de la page -->
+
+    <%= render 'shared/footer' %> <!-- Inclusion du footer -->
   </body>
 </html>
