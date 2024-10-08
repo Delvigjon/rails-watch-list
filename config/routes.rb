@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  # Routes pour les films populaires et recommandés
-  get 'popular', to: 'movies#popular', as: :movies_popular
-  get 'recommended', to: 'movies#recommended', as: :movies_recommended
+  # Route pour ajouter un film à une liste spécifique (par exemple, une watchlist)
+  post '/lists/:id/add_movie', to: 'lists#add_movie', as: :add_movie_to_list
 
   # Route racine vers la page d'accueil
   root to: 'pages#home'
 
-  # Route pour vérifier l'état de santé de l'application
-  get 'up', to: 'rails/health#show', as: :rails_health_check
+  # Autres routes pour les films populaires et recommandés
+  get 'popular', to: 'movies#popular', as: :movies_popular
+  get 'recommended', to: 'movies#recommended', as: :movies_recommended
 
   # Routes pour les listes et les bookmarks
   resources :lists do

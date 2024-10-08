@@ -6,6 +6,40 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Ma Watchlist</title>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .icon-heart {
+      display: inline-block;
+      color: #ff6b6b;
+      font-size: 24px;
+      transition: color 0.3s ease;
+    }
+
+    .icon-heart:hover {
+      color: #ff3b3b;
+      cursor: pointer;
+    }
+
+    .card-image {
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -39,12 +73,6 @@
       displayMovies(data.results, 'popular-movies');
     }
 
-    async function fetchRecommendedMovies() {
-      const response = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=fr-FR`);
-      const data = await response.json();
-      displayMovies(data.results, 'recommended-movies');
-    }
-
     function displayMovies(movies, elementId) {
       const movieContainer = document.getElementById(elementId);
       movieContainer.innerHTML = '';
@@ -58,7 +86,9 @@
                 <h5 class="card-title">${movie.title}</h5>
                 <p class="card-text">${movie.overview ? movie.overview.substring(0, 100) + '...' : 'Pas de description disponible.'}</p>
                 <div class="card-actions">
-                  <a href="#" class="btn">Ajouter à ma liste</a>
+                  <a href="#" class="icon-heart" data-movie-id="${movie.id}" data-list-id="1"> <!-- ID de la liste modifiable -->
+                    <i class="fas fa-heart"></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -66,11 +96,44 @@
         `;
         movieContainer.innerHTML += movieCard;
       });
+
+      addWatchlistEventListeners(); // Attacher les événements après avoir affiché les films
+    }
+
+    function addWatchlistEventListeners() {
+      const hearts = document.querySelectorAll('.icon-heart');
+      hearts.forEach(heart => {
+        heart.addEventListener('click', (event) => {
+          event.preventDefault();
+          const movieId = heart.getAttribute('data-movie-id');
+          const listId = heart.getAttribute('data-list-id');
+          addToWatchlist(movieId, listId);
+        });
+      });
+    }
+
+    function addToWatchlist(movieId, listId) {
+      // Envoyer une requête AJAX pour ajouter le film à la base de données
+      fetch(`/lists/${listId}/add_movie`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': '<%= form_authenticity_token %>'
+        },
+        body: JSON.stringify({ movie_id: movieId })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Film ajouté à la watchlist');
+        } else {
+          alert('Erreur lors de l\'ajout du film');
+        }
+      });
     }
 
     window.onload = () => {
       fetchPopularMovies();
-      fetchRecommendedMovies();
     };
   </script>
 </body>
