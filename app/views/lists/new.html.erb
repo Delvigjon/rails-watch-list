@@ -1,8 +1,113 @@
-<!-- app/views/lists/new.html.erb -->
-<div class="container">
-  <h1>New List</h1>
+<div class="new-list-page d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="new-list-container col-md-8 col-lg-6">
+    <!-- Titre de la section -->
+    <h1 class="new-list-title text-center mb-4">Créer une Nouvelle Liste</h1>
 
-  <%= render 'form', list: @list %>
+    <!-- Carte avec formulaire -->
+    <div class="new-list-card shadow-lg border-0">
+      <div class="new-list-card-body p-5">
+        <!-- Formulaire -->
+        <form>
+          <div class="new-list-form-group mb-4">
+            <label for="name" class="new-list-label">Nom de la Liste</label>
+            <input type="text" id="name" class="new-list-input" placeholder="Entrez le nom de la liste">
+          </div>
+          <div class="new-list-form-group mb-4">
+            <label for="background" class="new-list-label">Image de Fond (URL)</label>
+            <input type="text" id="background" class="new-list-input" placeholder="Entrez une URL d'image">
+          </div>
+          <div class="new-list-form-group mb-4">
+            <label for="photo" class="new-list-label">Photo (Upload)</label>
+            <input type="file" id="photo" class="new-list-input">
+          </div>
 
-  <%= link_to 'Back', lists_path, class: 'btn btn-secondary mt-3' %>
+          <!-- Boutons -->
+          <div class="d-flex justify-content-between">
+            <button type="button" class="new-list-btn new-list-btn-outline px-4 py-2">Retour</button>
+            <button type="submit" class="new-list-btn new-list-btn-primary px-4 py-2">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+<style>
+  /* Styles spécifiques à la page "Créer une Nouvelle Liste" */
+  .new-list-page {
+    background-color: #1e1e1e;
+    color: #d3d3d3;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .new-list-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffc107;
+    margin-bottom: 1.5rem;
+  }
+
+  .new-list-card {
+    border-radius: 15px;
+    background-color: #2c2c2c;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .new-list-card-body {
+    padding: 2rem;
+  }
+
+  .new-list-form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .new-list-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #ffc107;
+  }
+
+  .new-list-input {
+    width: 100%;
+    background-color: #121212;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .new-list-input:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+    outline: none;
+  }
+
+  .new-list-btn {
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .new-list-btn-outline {
+    border: 2px solid #ffc107;
+    color: #ffc107;
+    background-color: transparent;
+  }
+
+  .new-list-btn-outline:hover {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  .new-list-btn-primary {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  .new-list-btn-primary:hover {
+    background-color: #e0a800;
+    color: #000;
+  }
+</style>

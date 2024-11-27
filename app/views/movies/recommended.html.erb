@@ -1,2 +1,39 @@
-<h1>Movies#recommended</h1>
-<p>Find me in app/views/movies/recommended.html.erb</p>
+<h1 class="section-title">Films Recommandés pour Vous</h1>
+
+<div class="movie-grid" style="min-height: 100vh;">
+  <% if @recommended_movies.present? %>
+    <% @recommended_movies.each do |movie| %>
+      <div class="card">
+        <!-- Image du film -->
+        <div 
+          class="card-image" 
+          style="background-image: url('https://image.tmdb.org/t/p/w500<%= movie["poster_path"] %>');">
+        </div>
+
+        <!-- Contenu de la carte -->
+        <div class="card-body">
+          <!-- Titre du film -->
+          <h5 class="card-title"><%= movie["title"] %></h5>
+
+          <!-- Recommandation basée sur quoi -->
+          <p class="card-subtitle text-muted">
+            Recommandé pour vous basé sur votre intérêt pour : <strong><%= "Action" %></strong>
+          </p>
+
+          <!-- Description du film -->
+          <p class="card-text">
+            <%= movie["overview"].present? ? truncate(movie["overview"], length: 100) : "Aucune description disponible." %>
+          </p>
+
+          <!-- Boutons Ajouter et Détails -->
+          <div class="card-actions">
+            <a href="#" class="btn btn-primary">Ajouter à ma liste</a>
+            <a href="#" class="btn btn-outline-secondary">Détails</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-center text-muted">Aucune recommandation disponible pour le moment.</p>
+  <% end %>
+</div>

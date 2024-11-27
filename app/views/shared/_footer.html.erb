@@ -1,4 +1,34 @@
 <footer class="footer">
-  <p>&copy; 2024 RailsWatchList. Tous droits réservés.</p>
-  <p><a href="/contact">Nous contacter</a> | <a href="/about">À propos</a></p>
+  <div class="footer-container">
+    <!-- Logo et description -->
+    <div class="footer-brand">
+      <%= image_tag('watchlist-logo.png', alt: 'RailsWatchList Logo', class: 'footer-logo') %>
+      <p class="footer-description">RailsWatchList - Votre plateforme ultime pour suivre vos films et séries préférés.</p>
+    </div>
+
+    <!-- Liens utiles -->
+    <div class="footer-links">
+      <ul>
+        <li><a href="/contact">Nous contacter</a></li>
+        <li><a href="/about">À propos</a></li>
+        <li><a href="/terms">Conditions d'utilisation</a></li>
+        <li><a href="/privacy">Politique de confidentialité</a></li>
+      </ul>
+    </div>
+
+    <!-- Réseaux sociaux -->
+    <div class="footer-social">
+      <p>Suivez-nous :</p>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    <p>&copy; 2024 RailsWatchList. Tous droits réservés.</p>
+  </div>
 </footer>

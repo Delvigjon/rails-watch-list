@@ -7,134 +7,94 @@
   <title>Ma Watchlist</title>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    .icon-heart {
-      display: inline-block;
-      color: #ff6b6b;
-      font-size: 24px;
-      transition: color 0.3s ease;
-    }
-
-    .icon-heart:hover {
-      color: #ff3b3b;
-      cursor: pointer;
-    }
-
-    .card-image {
-      height: 300px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .card-body {
-      padding: 15px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .card-text {
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <div class="banner">
-      <div class="banner-content">
-        <h1>Votre liste de films à regarder</h1>
-        <h2>Classiques et nouveautés</h2>
-        <a href="/new_list" class="btn">Créer une nouvelle liste</a>
-      </div>
+  <!-- Bannière principale -->
+  <header class="banner">
+    <%= image_tag "watchlist.webp", alt: "Watchlist Background", class: "banner-image" %>
+    <div class="overlay"></div>
+    <div class="banner-content">
+      <h1>Votre Watchlist Cinéma</h1>
+      <h2>Explorez les films les plus populaires ou découvrez de nouvelles tendances</h2>
+      <%= link_to 'Créer une Nouvelle Liste', new_list_path, class: 'btn btn-primary' %>
     </div>
   </header>
 
+  <!-- Section des films tendances -->
   <main class="container">
-    <!-- Section des films populaires -->
-    <section class="popular-movies-section">
-      <h2 class="section-title">Films Populaires</h2>
-      <div class="row movie-grid" id="popular-movies">
-        <!-- Les films populaires seront injectés ici -->
+    <section class="trending-movies-section">
+      <h2 class="section-title">Tendances Actuelles</h2>
+      <div class="movie-grid" id="trending-movies">
+        <!-- Les films tendances seront injectés ici -->
+      </div>
+    </section>
+
+    <!-- Section des films les mieux notés -->
+    <section class="top-rated-movies-section">
+      <h2 class="section-title">Films Les Mieux Notés</h2>
+      <div class="movie-grid" id="top-rated-movies">
+        <!-- Les films les mieux notés seront injectés ici -->
       </div>
     </section>
   </main>
 
   <script>
-    const API_KEY = '55df2ad03cdd5178b8474e96a36b8e43'; // Remplace par ta clé API TMDb
+    const API_KEY = '<%= ENV["TMDB_API_KEY"] %>';
     const BASE_URL = 'https://api.themoviedb.org/3';
     const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-    async function fetchPopularMovies() {
-      const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=fr-FR`);
-      const data = await response.json();
-      displayMovies(data.results, 'popular-movies');
+    // Fonction pour récupérer les films tendances
+    async function fetchTrendingMovies() {
+      try {
+        const response = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
+        const data = await response.json();
+        displayMovies(data.results, 'trending-movies');
+      } catch (error) {
+        console.error("Erreur lors de la récupération des films tendances :", error);
+      }
     }
 
+    // Fonction pour récupérer les films les mieux notés
+    async function fetchTopRatedMovies() {
+      try {
+        const response = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=fr-FR`);
+        const data = await response.json();
+        displayMovies(data.results, 'top-rated-movies');
+      } catch (error) {
+        console.error("Erreur lors de la récupération des films les mieux notés :", error);
+      }
+    }
+
+    // Fonction générique pour afficher les films
     function displayMovies(movies, elementId) {
       const movieContainer = document.getElementById(elementId);
-      movieContainer.innerHTML = '';
+
+      if (!movieContainer) {
+        console.error(`Élément avec l'ID "${elementId}" introuvable.`);
+        return;
+      }
+
+      movieContainer.innerHTML = ''; // Vide le conteneur avant d'ajouter les films
 
       movies.forEach(movie => {
         const movieCard = `
-          <div class="col-md-3 mb-4">
-            <div class="card">
-              <div class="card-image" style="background-image: url('${IMG_BASE_URL}${movie.poster_path}');"></div>
-              <div class="card-body">
-                <h5 class="card-title">${movie.title}</h5>
-                <p class="card-text">${movie.overview ? movie.overview.substring(0, 100) + '...' : 'Pas de description disponible.'}</p>
-                <div class="card-actions">
-                  <a href="#" class="icon-heart" data-movie-id="${movie.id}" data-list-id="1"> <!-- ID de la liste modifiable -->
-                    <i class="fas fa-heart"></i>
-                  </a>
-                </div>
-              </div>
+          <div class="card">
+            <div class="card-image" style="background-image: url('${IMG_BASE_URL}${movie.poster_path}');"></div>
+            <div class="card-body">
+              <h5 class="card-title">${movie.title}</h5>
+              <p class="card-text">${movie.overview ? movie.overview.substring(0, 100) + '...' : 'Pas de description disponible.'}</p>
             </div>
           </div>
         `;
         movieContainer.innerHTML += movieCard;
       });
-
-      addWatchlistEventListeners(); // Attacher les événements après avoir affiché les films
     }
 
-    function addWatchlistEventListeners() {
-      const hearts = document.querySelectorAll('.icon-heart');
-      hearts.forEach(heart => {
-        heart.addEventListener('click', (event) => {
-          event.preventDefault();
-          const movieId = heart.getAttribute('data-movie-id');
-          const listId = heart.getAttribute('data-list-id');
-          addToWatchlist(movieId, listId);
-        });
-      });
-    }
-
-    function addToWatchlist(movieId, listId) {
-      // Envoyer une requête AJAX pour ajouter le film à la base de données
-      fetch(`/lists/${listId}/add_movie`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': '<%= form_authenticity_token %>'
-        },
-        body: JSON.stringify({ movie_id: movieId })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Film ajouté à la watchlist');
-        } else {
-          alert('Erreur lors de l\'ajout du film');
-        }
-      });
-    }
-
-    window.onload = () => {
-      fetchPopularMovies();
-    };
+    // Charger les films après chaque navigation avec Turbo
+    document.addEventListener('turbo:load', () => {
+      fetchTrendingMovies(); // Charger les tendances
+      fetchTopRatedMovies(); // Charger les films les mieux notés
+    });
   </script>
 </body>
 </html>

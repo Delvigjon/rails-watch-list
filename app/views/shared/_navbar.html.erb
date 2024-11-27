@@ -1,11 +1,18 @@
 <nav class="navbar">
-  <div class="navbar-brand">
-    <a href="/">RailsWatchList</a>
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        <%= image_tag 'watchlist-logo.png', alt: 'RailsWatchList Logo', class: 'navbar-logo-img' %>
+      </a>
+    </div>
+
+    <!-- Navigation links -->
+    <ul class="navbar-links">
+      <li><a href="<%= root_path %>" id="home-link">Accueil</a></li>
+      <li><a href="<%= movies_popular_path %>">Films Populaires</a></li>
+      <li><a href="<%= movies_recommended_path %>">Recommandations</a></li>
+      <li><a href="<%= new_list_path %>">Nouvelle Liste</a></li>
+    </ul>
   </div>
-  <ul class="navbar-links">
-    <li><a href="/">Accueil</a></li>
-    <li><a href="/popular">Films Populaires</a></li>
-    <li><a href="/recommendations">Recommandations</a></li>
-    <li><a href="/new_list">Nouvelle Liste</a></li>
-  </ul>
 </nav>

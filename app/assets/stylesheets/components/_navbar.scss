@@ -1,12 +1,65 @@
-.navbar-lewagon {
-  justify-content: space-between;
-  background: white;
+/* Container principal pour la navbar */
+.navbar {
+  background-color: #343a40; /* Couleur de fond */
+  padding: 10px 20px;
+  display: flex; /* Active Flexbox */
+  justify-content: center; /* Centre les liens */
+  align-items: center; /* Aligne verticalement */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
+/* Conteneur interne pour organiser logo et liens */
+.navbar-container {
+  display: flex; /* Active Flexbox */
+  align-items: center; /* Aligne les éléments verticalement */
+  justify-content: space-between; /* Sépare le logo des liens */
+  width: 100%; /* Occupe toute la largeur */
+  max-width: 1200px; /* Largeur maximale pour éviter une trop grande expansion */
 }
 
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
+/* Logo de la navbar */
+.navbar-logo-img {
+  height: 80px; /* Taille du logo */
+  object-fit: contain;
+}
+
+/* Liste des liens */
+.navbar-links {
+  list-style: none; /* Retire les puces */
+  display: flex; /* Affiche les liens en ligne */
+  gap: 20px; /* Ajoute un espace entre les liens */
+  margin: 0;
+  padding: 0;
+}
+
+/* Style des liens */
+.navbar-links li a {
+  color: #ffffff; /* Texte en blanc */
+  text-decoration: none; /* Retire les soulignements */
+  font-size: 1rem;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Effet au survol des liens */
+.navbar-links li a:hover {
+  background-color: #ffc107;
+  color: #000;
+}
+
+/* Responsive design pour les petits écrans */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column; /* Empile le logo et les liens */
+    align-items: center;
+  }
+
+  .navbar-links {
+    flex-direction: column; /* Affiche les liens verticalement */
+    gap: 10px;
+  }
 }
