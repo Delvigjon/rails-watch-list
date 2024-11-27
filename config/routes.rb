@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # Autres routes pour les films populaires et recommandés
   get 'popular', to: 'movies#popular', as: :movies_popular
   get 'recommended', to: 'movies#recommended', as: :movies_recommended
+  get 'contact', to: 'pages#contact'
 
   # Routes pour les listes et les bookmarks
   resources :lists do
