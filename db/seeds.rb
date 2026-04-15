@@ -1,47 +1,66 @@
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
 
-# Remplace par ta clé API TMDb
-API_KEY = '55df2ad03cdd5178b8474e96a36b8e43'
+puts "🧹 Nettoyage de la base..."
 
-# Méthode pour récupérer un film par son titre via l'API TMDb
-def fetch_movie_data(title)
-  encoded_title = URI.encode_www_form_component(title)
-  url = URI("https://api.themoviedb.org/3/search/movie?api_key=#{API_KEY}&query=#{encoded_title}")
-  response = Net::HTTP.get(url)
-  movie_data = JSON.parse(response)["results"].first
+Bookmark.destroy_all if defined?(Bookmark)
+Movie.destroy_all
 
-  if movie_data
-    {
-      title: movie_data["title"],
-      overview: movie_data["overview"],
-      poster_url: "https://image.tmdb.org/t/p/original#{movie_data['poster_path']}",
-      rating: movie_data["vote_average"]
-    }
-  else
-    nil
-  end
+API_KEY  = ENV["TMDB_API_KEY"]
+BASE_URL = "https://api.themoviedb.org/3"
+
+if API_KEY.nil? || API_KEY.strip.empty?
+  raise "TMDB_API_KEY manquant. Ajoute ta clé API."
 end
 
-# Créer ou mettre à jour un film avec les données récupérées de l'API
-def create_or_update_movie(title)
-  movie_data = fetch_movie_data(title)
+# ==============================
+# 🎬 Récupération des films
+# ==============================
+def fetch_popular_movies(base_url, api_key, limit = 50)
+  movies = []
+  page = 1
 
-  if movie_data
-    Movie.find_or_create_by(title: movie_data[:title]) do |movie|
-      movie.overview = movie_data[:overview]
-      movie.poster_url = movie_data[:poster_url]
-      movie.rating = movie_data[:rating]
+  while movies.size < limit
+    url = URI("#{base_url}/discover/movie?api_key=#{api_key}&sort_by=popularity.desc&page=#{page}&language=fr-FR")
+    response = Net::HTTP.get_response(url)
+
+    unless response.is_a?(Net::HTTPSuccess)
+      raise "Erreur TMDB: #{response.code}"
     end
+
+    data = JSON.parse(response.body)
+    results = data["results"] || []
+
+    break if results.empty?
+
+    movies.concat(results)
+    page += 1
+  end
+
+  movies.first(limit)
+end
+
+puts "🎬 Récupération des films..."
+movies = fetch_popular_movies(BASE_URL, API_KEY, 50)
+
+puts "💾 Création des films..."
+
+movies.each_with_index do |movie_data, index|
+  # ⚠️ On skip les films sans image
+  next if movie_data["poster_path"].nil?
+
+  movie = Movie.new(
+    title: movie_data["title"],
+    overview: movie_data["overview"].presence || "Description indisponible",
+    poster_url: "https://image.tmdb.org/t/p/w500#{movie_data["poster_path"]}",
+    rating: movie_data["vote_average"] || 0
+  )
+
+  if movie.save
+    puts "✅ #{index + 1} - #{movie.title}"
   else
-    puts "Aucun film trouvé pour #{title}"
+    puts "❌ ERREUR #{movie.title} : #{movie.errors.full_messages.join(", ")}"
   end
 end
 
-# Liste de titres de films à rechercher via l'API
-movie_titles = ["Wonder Woman 1984", "The Shawshank Redemption", "Titanic", "Ocean's Eight"]
-
-# Créer ou mettre à jour les films à partir des titres
-movie_titles.each do |title|
-  create_or_update_movie(title)
-end
+puts "🎉 Seed terminé : #{Movie.count} films créés"

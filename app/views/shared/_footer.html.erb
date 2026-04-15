@@ -1,34 +1,46 @@
-<footer class="footer">
-  <div class="footer-container">
-    <!-- Logo et description -->
-    <div class="footer-brand">
-      <%= image_tag('watchlist-logo.png', alt: 'RailsWatchList Logo', class: 'footer-logo') %>
-      <p class="footer-description">RailsWatchList - Votre plateforme ultime pour suivre vos films et séries préférés.</p>
+<footer class="site-footer">
+  <div class="site-footer__container">
+
+    <!-- Bloc marque -->
+    <div class="site-footer__brand">
+      <%= image_tag "watchlist-logo.png", alt: "Logo Watchlist", class: "site-footer__logo" %>
+      <p class="site-footer__description">
+        RailsWatchList — organise tes films, découvre les tendances et garde une vue claire sur ce que tu veux regarder.
+      </p>
     </div>
 
-    <!-- Liens utiles -->
-    <div class="footer-links">
+    <!-- Liens -->
+    <div class="site-footer__links">
+      <h4 class="site-footer__title">Navigation</h4>
       <ul>
-        <li><a href="/contact">Nous contacter</a></li>
-        <li><a href="/about">À propos</a></li>
-        <li><a href="/terms">Conditions d'utilisation</a></li>
-        <li><a href="/privacy">Politique de confidentialité</a></li>
+        <li><%= link_to "Accueil", root_path %></li>
+        <li><%= link_to "Mes listes", lists_path %></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">À propos</a></li>
       </ul>
     </div>
 
-    <!-- Réseaux sociaux -->
-    <div class="footer-social">
-      <p>Suivez-nous :</p>
-      <div class="social-icons">
-        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    <!-- Réseaux -->
+    <div class="site-footer__social">
+      <h4 class="site-footer__title">Suivez-nous</h4>
+
+      <div class="site-footer__icons">
+        <a href="#" class="site-footer__icon">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="site-footer__icon">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="site-footer__icon">
+          <i class="fab fa-instagram"></i>
+        </a>
       </div>
     </div>
+
   </div>
 
-  <!-- Copyright -->
-  <div class="footer-bottom">
-    <p>&copy; 2024 RailsWatchList. Tous droits réservés.</p>
+  <!-- Bas -->
+  <div class="site-footer__bottom">
+    <p>© <%= Time.current.year %> RailsWatchList — Tous droits réservés</p>
   </div>
 </footer>

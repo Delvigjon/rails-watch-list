@@ -1,18 +1,27 @@
-<nav class="navbar">
-  <div class="navbar-container">
+<nav class="site-navbar">
+  <div class="site-navbar__container">
+
     <!-- Logo -->
-    <div class="navbar-logo">
-      <a href="/">
-        <%= image_tag 'watchlist-logo.png', alt: 'RailsWatchList Logo', class: 'navbar-logo-img' %>
-      </a>
+    <div class="site-navbar__logo">
+      <%= link_to root_path do %>
+        <%= image_tag "watchlist-logo.png", alt: "Logo Watchlist", class: "site-navbar__logo-img" %>
+      <% end %>
     </div>
 
-    <!-- Navigation links -->
-    <ul class="navbar-links">
-      <li><a href="<%= root_path %>" id="home-link">Accueil</a></li>
-      <li><a href="<%= movies_popular_path %>">Films Populaires</a></li>
-      <li><a href="<%= movies_recommended_path %>">Recommandations</a></li>
-      <li><a href="<%= new_list_path %>">Nouvelle Liste</a></li>
+    <!-- Burger (mobile) -->
+    <button class="site-navbar__toggle" data-action="click->navbar#toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Links -->
+    <ul class="site-navbar__links" data-navbar-target="menu">
+      <li><%= link_to "Accueil", root_path %></li>
+      <li><%= link_to "Films populaires", movies_popular_path %></li>
+      <li><%= link_to "Recommandations", movies_recommended_path %></li>
+      <li><%= link_to "Nouvelle liste", new_list_path, class: "site-navbar__cta" %></li>
     </ul>
+
   </div>
 </nav>
